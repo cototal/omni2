@@ -1,3 +1,6 @@
+# Deploy failed if rbenv is initialized after the 'interactive' check in '.bashrc'.
+# move it before (around line 4/5)
+# https://github.com/mina-deploy/mina/issues/528
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
@@ -13,7 +16,7 @@ require 'mina/whenever'
 
 set :application_name, 'omni2'
 set :domain, 'dende'
-set :deploy_to, '/home/deploy/sites/production'
+set :deploy_to, '/home/deploy/sites/production/omni2'
 set :repository, 'git@github.com:GinBlades/omni2.git'
 set :branch, 'master'
 
@@ -23,7 +26,7 @@ set :branch, 'master'
 #   set :forward_agent, true     # SSH forward_agent.
 
 # shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
-# set :shared_dirs, fetch(:shared_dirs, []).push('somedir')
+set :shared_dirs, fetch(:shared_dirs, []).push('tmp')
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
 set :bundle_path, "~/bundle/#{RUBY_VERSION}"
