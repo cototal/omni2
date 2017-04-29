@@ -19,3 +19,23 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
+
+gem "jquery-rails"
+gem "bootstrap-sass"
+gem "autoprefixer-rails"
+gem "modernizr-rails"
+gem "jquery-datetimepicker-rails"
+gem "jquery-ui-rails"
+
+gem "slim-rails"
+gem "devise", github: "plataformatec/devise"
+gem "ace-rails-ap"
+gem "redcarpet"
+
+gem "simple_form"
+gem "ransack"
+gem "will_paginate"
+
+gem "mina"
+gem "mina-whenever"
+gem "whenever", require: false
