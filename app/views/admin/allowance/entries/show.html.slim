@@ -1,0 +1,24 @@
+table.table.table-striped
+  tr
+    th User:
+    td= @allowance_entry.user
+  tr
+    th Entry date:
+    td= @allowance_entry.entry_date
+  tr
+    th Price:
+    td= number_to_currency(@allowance_entry.price)
+  tr
+    th Payee:
+    td= @allowance_entry.payee
+  tr
+    th Category:
+    td= @allowance_entry.category
+  tr
+    th Notes:
+    td= @allowance_entry.notes
+
+.btn-group
+  = link_to 'Edit', edit_admin_allowance_entry_path(@allowance_entry), class: 'btn btn-default'
+  = link_to 'All Allowance Entries', admin_allowance_entries_path, class: 'btn btn-default'
+

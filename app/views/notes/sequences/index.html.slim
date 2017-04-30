@@ -1,0 +1,31 @@
+h1 
+  Notes Sequences
+  - if user_signed_in?
+    '
+    = link_to 'New Sequence', new_admin_notes_sequence_path, class: 'btn btn-primary'
+
+.row
+  .col-md-8
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th Notes category
+          th Description
+          th
+          th
+          
+      tbody
+        - @notes_sequences.each do |notes_sequence|
+          tr
+            td= notes_sequence.name
+            td= notes_sequence.notes_category
+            td= notes_sequence.description
+            td= link_to 'Show', notes_sequence
+            td
+              - if user_signed_in?
+                = link_to 'Edit', edit_admin_notes_sequence_path(notes_sequence)
+                '
+                |/
+                '
+                = link_to 'Delete', notes_sequence, :method => :delete, :data => { :confirm => 'Are you sure?' }

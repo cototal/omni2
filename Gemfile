@@ -24,6 +24,7 @@ gem "jquery-rails"
 gem "bootstrap-sass"
 gem "autoprefixer-rails"
 gem "modernizr-rails"
+gem "momentjs-rails"
 gem "jquery-datetimepicker-rails"
 gem "jquery-ui-rails"
 
@@ -32,7 +33,7 @@ gem "devise", github: "plataformatec/devise"
 gem "ace-rails-ap"
 gem "redcarpet"
 
-gem "simple_form"
+gem 'simple_form', '~> 3.4'
 gem "ransack"
 gem "will_paginate"
 

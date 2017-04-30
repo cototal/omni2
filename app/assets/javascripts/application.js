@@ -11,4 +11,13 @@
 // about supported directives.
 //
 //= require rails-ujs
+//= require jquery
+//= require jquery-ui
+//= require moment
+//= require bootstrap-sprockets
+//= require ace/ace
+//= require ace/worker-html
+//= require ace/theme-github
+//= require ace/mode-markdown
+//= require jquery.datetimepicker
 //= require_tree .

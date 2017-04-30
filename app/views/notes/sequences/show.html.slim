@@ -1,0 +1,32 @@
+hgroup
+  h1
+    = @notes_sequence.name
+    '
+    small 
+      | (#{pluralize(@notes_sequence.notes_entries.size, 'Note')})
+    - if user_signed_in?
+      = link_to "New Entry", new_admin_notes_entry_path(notes_sequence: @notes_sequence), class: "btn btn-primary pull-right"
+  h2 Category: #{@notes_sequence.notes_category.name}
+p= @notes_sequence.description
+table.table.table-striped
+  thead
+    tr
+      th Name
+      th
+      
+  tbody
+    - @notes_sequence.notes_entries.each do |notes_entry|
+      tr
+        td= link_to notes_entry.name, notes_entry
+        td
+          - if user_signed_in?
+            = link_to 'Edit', edit_admin_notes_entry_path(notes_entry)
+            '
+            |/
+            '
+            = link_to 'Delete', [:admin,notes_entry], method: :delete, data: { confirm: 'Are you sure?' }
+
+.btn-group
+  - if user_signed_in?
+    = link_to 'Edit', edit_admin_notes_sequence_path(@notes_sequence), class: 'btn btn-default'
+  = link_to 'All Notes', notes_entries_path, class: 'btn btn-default'

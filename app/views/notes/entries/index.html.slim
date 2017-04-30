@@ -1,0 +1,14 @@
+h1 
+  Notes
+  - if user_signed_in?
+    '
+    = link_to 'New Entry', new_admin_notes_entry_path, class: 'btn btn-primary'
+
+.row
+  .col-sm-9
+    - cache [Notes::Entry.cache_update, ransack_params(params[:q])] do
+      = render "table", notes: @notes_entries, q: @q, sortable: true
+  .col-sm-3
+    .panel.panel-default
+      .panel-body
+        = render "notes/search_form", q: @q

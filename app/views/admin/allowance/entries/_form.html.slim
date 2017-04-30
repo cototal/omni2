@@ -1,0 +1,12 @@
+= simple_form_for([:admin, @allowance_entry]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :entry_date, as: :string, input_html: { type: 'date', value: date_form(@allowance_entry.entry_date) || date_form(Time.now) }
+    = f.input :price
+    = f.input :payee
+    = f.input :category
+    = f.input :notes
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-success'

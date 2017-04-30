@@ -1,0 +1,30 @@
+table.table.table-striped
+  thead
+    - if sortable
+      tr
+        th= sort_link q, :name
+        th= sort_link q, :notes_sequence_name, "Sequence"
+        th= sort_link q, :notes_category_name, "Category"
+        th= sort_link q, :updated_at, "Last Updated"
+        th
+    - else
+      tr
+        th Name
+        th Sequence
+        th Category
+        th Entry Date
+        th
+  tbody
+    - notes.each do |entry|
+      tr
+        td = link_to entry.name.truncate(40), entry
+        td = link_to entry.notes_sequence.name.truncate(20), entry.notes_sequence if entry.notes_sequence
+        td = link_to entry.notes_category.name.truncate(20), entry.notes_category if entry.notes_category
+        td = date_form(entry.updated_at)
+        td
+          - if user_signed_in?
+            = link_to 'Edit', edit_admin_notes_entry_path(entry)
+            '
+            |/
+            '
+            = link_to 'Delete', [:admin, entry], method: :delete, data: { confirm: 'Are you sure?' }

@@ -98,6 +98,8 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     modernizr-rails (2.7.1)
+    momentjs-rails (2.17.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     nio4r (2.0.0)
     nokogiri (1.7.1)
@@ -209,6 +211,7 @@ DEPENDENCIES
   mina
   mina-whenever
   modernizr-rails
+  momentjs-rails
   pg (~> 0.18)
   rails (~> 5.1.0)
   ransack

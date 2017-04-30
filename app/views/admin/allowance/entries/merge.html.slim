@@ -1,0 +1,19 @@
+h1 Merge Fields
+= form_tag merger_admin_allowance_entries_path, method: :put do
+  fieldset
+    legend Categories
+    label From
+    = select_tag "category[from]", options_for_select(@allowance_entries.map(&:category).uniq), include_blank: true, class: "form-control"
+    label To
+    = select_tag "category[to]", options_for_select(@allowance_entries.map(&:category).uniq), include_blank: true, class: "form-control"
+
+  fieldset
+    legend Payees
+    label From
+    = select_tag "payee[from]", options_for_select(@allowance_entries.map(&:payee).uniq), include_blank: true, class: "form-control"
+    label To
+    = select_tag "payee[to]", options_for_select(@allowance_entries.map(&:payee).uniq), include_blank: true, class: "form-control"
+  .form-group
+    = submit_tag "Merge", class: "btn btn-success"
+
+

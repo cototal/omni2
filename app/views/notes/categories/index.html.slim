@@ -1,0 +1,26 @@
+h1 
+  Notes Categories
+  - if user_signed_in?
+    '
+    = link_to 'New Category', new_admin_notes_category_path, class: 'btn btn-primary'
+
+.row
+  .col-md-6
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th
+          
+      tbody
+        - @notes_categories.each do |notes_category|
+          tr
+            td= link_to notes_category.name, notes_category
+            td
+              - if user_signed_in?
+                = link_to 'Edit', edit_admin_notes_category_path(notes_category)
+                '
+                |/
+                '
+                = link_to 'Delete', [:admin,notes_category], method: :delete, data: { confirm: 'Are you sure?' }
+

@@ -1,0 +1,23 @@
+
+nav.navbar.navbar-inverse role="navigation"
+  .container
+    .navbar-header
+      button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar-collapse"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      = link_to 'Shaun TM', root_path, class: 'navbar-brand'
+    .collapse.navbar-collapse#navbar-collapse
+      ul.nav.navbar-nav
+        - if user_signed_in?
+          li = link_to 'Allowance', admin_allowance_entries_path
+          li = link_to 'Notes', notes_path
+        - else
+          li = link_to 'Notes', notes_path
+        li = link_to '&#9536;'.html_safe, admin_path
+      ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          li = link_to 'Sign out', destroy_user_session_path, method: :delete
+        - else
+          li = link_to 'Sign in', new_user_session_path

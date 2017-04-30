@@ -1,0 +1,97 @@
+.row
+  .col-md-12
+    h1 
+      Allowance Entries
+      '
+      = link_to 'New Entry', new_admin_allowance_entry_path, class: 'btn btn-primary'
+.row
+  .col-md-6
+    = search_form_for [:admin, @q] do |f|
+      fieldset
+        legend Search Entries
+        .row
+          .col-md-6
+            .form-group
+              = f.label :user_id_eq
+              = f.select :user_id_eq, options_from_collection_for_select(::User.all, :id, :email, @q.user_id_eq), { include_blank: true }, class: "form-control"
+          .col-md-6
+            .form-group
+              = f.label :category_cont
+              = f.search_field :category_cont, class: "form-control"
+        .row
+          .col-md-6
+            .form-group
+              = f.label :payee_cont
+              = f.search_field :payee_cont, class: "form-control"
+          .col-md-6
+            .form-group
+              = f.label :notes_cont
+              = f.search_field :notes_cont, class: "form-control"
+        .row
+          .col-md-6
+            .form-group
+              = f.label :entry_date_gteq, "Date From"
+              = f.search_field :entry_date_gteq, class: "form-control", type: "date"
+          .col-md-6
+            .form-group
+              = f.label :entry_date_lteq, "Date To"
+              = f.search_field :entry_date_lteq, class: "form-control", type: "date"
+        .btn-group
+          = f.submit class: "btn btn-default"
+          = link_to "Clear", admin_allowance_entries_path, class: "btn btn-default"
+  .col-md-6
+    .panel.panel-default
+      table.table.table-striped
+        tbody
+          tr
+            th Balance
+            td= number_to_currency(current_user.allowance_balance)
+          tr
+            th Spending for #{Time.zone.now.strftime("%B")}
+            td= number_to_currency(Allowance::Entry.monthly_spending(Time.zone.now, current_user.allowance_entries))
+
+    .panel.panel-default
+      .panel-heading
+        h3.panel-title Allowance Task
+      .panel-body
+        dl
+          - current_user.allowance_tasks.each do |task|
+            dt= task.goal
+            dd
+              = task.reward
+              .btn-group
+                = link_to "Update", [:edit, :admin, task], class: "btn btn-xs btn-default"
+                = link_to "Delete", [:admin, task], method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-xs btn-default"
+        = link_to "Add", new_admin_allowance_task_path, class: "btn btn-default"
+
+- cache [Allowance::Entry.cache_update, ransack_params(params[:q]), params[:page]] do
+  table.table.table-striped
+    thead
+      tr
+        th= sort_link @q, :user_first_name, "Name"
+        th= sort_link @q, :entry_date
+        th= sort_link @q, :price
+        th= sort_link @q, :payee
+        th= sort_link @q, :category
+        th= sort_link @q, :notes
+        th
+        th
+        
+    tbody
+      - @allowance_entries.each do |allowance_entry|
+        tr
+          td= allowance_entry.user
+          td= allowance_entry.entry_date
+          td= number_to_currency(allowance_entry.price)
+          td= allowance_entry.payee
+          td= allowance_entry.category
+          td= allowance_entry.notes.try(:truncate, 20)
+          td= link_to 'Show', [:admin, allowance_entry]
+          td
+            = link_to 'Edit', edit_admin_allowance_entry_path(allowance_entry)
+            '
+            |/
+            '
+            = link_to 'Delete', [:admin, allowance_entry], method: :delete, data: { confirm: 'Are you sure?' }
+  = will_paginate @allowance_entries
+

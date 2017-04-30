@@ -1,0 +1,19 @@
+- cache [@notes_entry, user_signed_in?] do
+  ul.list-unstyled
+    - if @notes_entry.notes_category
+      li= link_to "&larr; Back to #{@notes_entry.notes_category} notes".html_safe, @notes_entry.notes_category
+    - if @notes_entry.notes_sequence
+      li= link_to "&larr; Back to #{@notes_entry.notes_sequence} notes".html_safe, @notes_entry.notes_sequence
+  h1
+    = @notes_entry.name
+    '
+    small = @notes_entry.notes_category
+    - if user_signed_in?
+      '
+      .btn-group
+        = link_to 'Edit', edit_admin_notes_entry_path(@notes_entry), class: 'btn btn-default btn-sm'
+        = link_to 'Delete', [:admin,@notes_entry], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-sm btn-danger'
+
+  .row
+    .col-md-12
+      = md_render(@notes_entry.body)
