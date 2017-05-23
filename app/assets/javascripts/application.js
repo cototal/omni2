@@ -20,4 +20,4 @@
 //= require ace/theme-github
 //= require ace/mode-markdown
 //= require jquery.datetimepicker
-//= require_tree .
+//= require main

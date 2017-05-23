@@ -157,7 +157,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    simple_form (1.4.1)
+    simple_form (3.5.0)
+      actionpack (> 4, < 5.2)
+      activemodel (> 4, < 5.2)
     slim (3.0.7)
       temple (~> 0.7.6)
       tilt (>= 1.3.3, < 2.1)
@@ -217,7 +219,7 @@ DEPENDENCIES
   ransack
   redcarpet
   sass-rails (~> 5.0)
-  simple_form
+  simple_form (~> 3.4)
   slim-rails
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
