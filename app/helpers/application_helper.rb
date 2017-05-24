@@ -39,7 +39,7 @@ module ApplicationHelper
 
   def ransack_params(q)
     return unless q
-    q.each_with_object([]) do |hash, obj|
+    q.permit!.to_h.each_with_object([]) do |hash, obj|
       next if hash[1].empty?
       obj << hash[0]
       obj << hash[1]
