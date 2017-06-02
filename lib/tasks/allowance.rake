@@ -3,7 +3,7 @@ namespace :allowance do
   task monthly: :environment do
     User.all.each do |user|
       user.allowance_entries.create(
-        payee: user.first_name,
+        payee: user.email,
         category: "Allowance",
         entry_date: Time.zone.now,
         price: -100

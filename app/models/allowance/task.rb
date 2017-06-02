@@ -8,7 +8,7 @@ class Allowance::Task < ApplicationRecord
     return if pay_out == 0
 
     user.allowance_entries.create(
-      payee: user.first_name,
+      payee: user.email,
       category: "Allowance Task",
       entry_date: Time.zone.now,
       price: pay_out
