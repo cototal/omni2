@@ -33,7 +33,7 @@ module ApplicationHelper
   end
 
   def md_render(content)
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true)
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, tables: true, fenced_code_blocks: true)
     markdown.render(content).html_safe
   end
 
