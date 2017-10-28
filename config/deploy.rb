@@ -15,8 +15,8 @@ require 'mina/whenever'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, 'omni2'
-set :domain, 'dende'
-set :deploy_to, '/home/deploy/sites/production/omni2'
+set :domain, 'thyone'
+set :deploy_to, '/home/shaun/rails/omni2'
 set :repository, 'git@github.com:GinBlades/omni2.git'
 set :branch, 'master'
 
