@@ -12,6 +12,7 @@ nav.navbar.navbar-inverse role="navigation"
       ul.nav.navbar-nav
         - if user_signed_in?
           li = link_to 'Allowance', admin_allowance_entries_path
+          li = link_to 'Workouts', admin_workouts_path
           li = link_to 'Notes', notes_path
         - else
           li = link_to 'Notes', notes_path

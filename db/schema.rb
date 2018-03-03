@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170429230300) do
+ActiveRecord::Schema.define(version: 20180303150302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,10 +85,30 @@ ActiveRecord::Schema.define(version: 20170429230300) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workouts_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "start"
+    t.integer "duration"
+    t.string "exercise"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_workouts_sessions_on_user_id"
+  end
+
+  create_table "workouts_seven_mins", force: :cascade do |t|
+    t.string "exercise", null: false
+    t.text "description"
+    t.integer "position"
+    t.string "picture"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "allowance_entries", "users"
   add_foreign_key "allowance_tasks", "users"
   add_foreign_key "notes_entries", "notes_categories"
   add_foreign_key "notes_entries", "notes_sequences"
   add_foreign_key "notes_entries", "users"
   add_foreign_key "notes_sequences", "notes_categories"
+  add_foreign_key "workouts_sessions", "users"
 end

@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       end
       resources :tasks, except: [:index, :show]
     end
+    namespace :workouts do
+      get "/" => "dashboard#index"
+      resources :sessions
+    end
   end
   devise_for :users
   namespace :notes do

@@ -1,0 +1,15 @@
+h1 Workouts
+.row
+  .col-md-6
+    h2 Recent Workouts
+    table.table.table-striped
+      - @workouts.each do |workout|
+        tr
+          td= time_display(workout.start)
+          td #{workout.duration} min
+          td= workout.exercise
+      
+  .col-md-6
+    .btn-group
+      = link_to "Add Workout", new_admin_workouts_session_path, class: "btn btn-primary"
+      = link_to "Start 7-min workout", "#", class: "btn btn-default"

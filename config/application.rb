@@ -20,6 +20,7 @@ module Omni2
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+    config.time_zone = "Central Time (US & Canada)"
  
     config.session_store :redis_store, {
       servers: [
@@ -39,6 +40,11 @@ module Omni2
     # -- all .rb files in that directory are automatically loaded.
 
     # Don't generate system test files.
-    config.generators.system_tests = nil
+    config.generators do |g|
+      g.system_tests    false
+      g.stylesheets     false
+      g.javascripts     false
+      g.helper          false
+    end
   end
 end

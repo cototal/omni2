@@ -1,0 +1,5 @@
+= simple_form_for [:admin, @workout] do |f|
+  = f.input :start
+  = f.input :duration
+  = f.input :exercise
+  = f.submit "Add", class: "btn btn-primary"
