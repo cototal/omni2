@@ -1,13 +1,8 @@
-/*
- *= require jquery-ui
- *= require jquery.datetimepicker
- */
-
 $navbar-border-radius: 0;
 
 @import "jquery-ui-dist/jquery-ui";
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "jquery-datetimepicker/build/jquery.datetimepicker.min";
 @import "animation";
 
 .flash {

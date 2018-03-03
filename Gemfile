@@ -21,17 +21,8 @@ group :development do
   gem 'pry-rails'
 end
 
-gem "jquery-rails"
-gem "bootstrap-sass"
-gem "autoprefixer-rails"
-gem "modernizr-rails"
-gem "momentjs-rails"
-gem "jquery-datetimepicker-rails"
-gem "jquery-ui-rails"
-
 gem "slim-rails"
 gem "devise"
-gem "ace-rails-ap"
 gem "redcarpet"
 
 gem 'simple_form', '~> 3.4'
@@ -41,3 +32,4 @@ gem "will_paginate"
 gem "mina"
 gem "mina-whenever"
 gem "whenever", require: false
+gem "redis-rails"
