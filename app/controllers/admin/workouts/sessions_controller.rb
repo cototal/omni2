@@ -1,4 +1,6 @@
 class Admin::Workouts::SessionsController < ApplicationController
+  before_action :set_workout, only: [:destroy]
+
   def index
   end
 
@@ -15,7 +17,16 @@ class Admin::Workouts::SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    @workout.destroy
+    redirect_to admin_workouts_path
+  end
+
   private
+    
+    def set_workout
+      @workout = ::Workouts::Session.find(params[:id])
+    end
 
     def workout_params
       params.require(:workouts_session).permit(:start, :duration, :exercise)
