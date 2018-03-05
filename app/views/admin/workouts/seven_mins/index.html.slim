@@ -1,0 +1,20 @@
+.row
+  .col-md-8
+    h1 Start a 7-minute Workout
+    = link_to "Start", "#", class: "btn btn-primary"
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        h3.panel-title Exercise list
+      .panel-body
+        #seven-min-list
+
+
+script#list-template type="text/x-template"
+  ul
+    li v-for="exercise of exerciseList"
+      p {{ exercise.exercise }}
+      
+  
+javascript:
+  var exerciseList = #{Workouts::SevenMin.all.to_json.html_safe}

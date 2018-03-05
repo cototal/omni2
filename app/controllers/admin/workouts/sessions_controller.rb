@@ -29,6 +29,6 @@ class Admin::Workouts::SessionsController < ApplicationController
     end
 
     def workout_params
-      params.require(:workouts_session).permit(:start, :duration, :exercise)
+      params.require(:workouts_session).permit(:start, :duration, :exercise, :notes)
     end
 end

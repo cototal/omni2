@@ -20,6 +20,11 @@ Rails.application.routes.draw do
     namespace :workouts do
       get "/" => "dashboard#index"
       resources :sessions
+      resources :seven_mins do
+        collection do
+          get :list
+        end
+      end
     end
   end
   devise_for :users
