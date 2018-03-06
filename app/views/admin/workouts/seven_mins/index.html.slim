@@ -11,10 +11,26 @@
 
 
 script#list-template type="text/x-template"
-  ul
-    li v-for="exercise of exerciseList"
-      p {{ exercise.exercise }}
+  div
+    ul
+      li v-for="exercise of sortedList"
+        p {{ exercise.position }} - {{ exercise.exercise }}
+    new-exercise @add="addToList"
       
+script#new-exercise-template type="text/x-template"
+  form @submit.prevent="submit"
+    fieldset
+      legend Add New Exercise
+      .form-group
+        label for="new-exercise-exercise" Exercise
+        input v-model="exercise" class="form-control" id="new-exercise-exercise" type="text"
+      .form-group
+        label for="new-exercise-description" Description
+        textarea v-model="description" class="form-control" id="new-exercise-description"
+      .form-group
+        label for="new-exercise-position" Position
+        input v-model="position" class="form-control" id="new-exericse-position" type="number"
+      input type="submit" value="Add"
   
 javascript:
-  var exerciseList = #{Workouts::SevenMin.all.to_json.html_safe}
+  var exerciseList = #{@exercises.to_json.html_safe}

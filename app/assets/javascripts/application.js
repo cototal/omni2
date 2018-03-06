@@ -20,6 +20,6 @@
 //= require ace-builds/src/theme-github
 //= require ace-builds/src/mode-markdown
 //= require jquery-datetimepicker/build/jquery.datetimepicker.full
-//= require vue/dist/vue.min
+//= require vue/dist/vue.js
 //= require main
 //= require seven_min
