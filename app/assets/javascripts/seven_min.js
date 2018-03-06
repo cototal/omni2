@@ -10,7 +10,7 @@ $(function() {
         },
         methods: {
             submit() {
-                _this = this;
+                var _this = this;
                 $.post("/admin/workouts/seven_mins", {
                     seven_min: {
                         exercise: _this.$data.exercise,
@@ -19,6 +19,9 @@ $(function() {
                     }
                 }).then(function(result) {
                     _this.$emit("add", result);
+                    _this.$data.exercise = "";
+                    _this.$data.description = "";
+                    _this.$data.position = 0;
                 });
             }
         }
@@ -41,6 +44,18 @@ $(function() {
             }
         },
         methods: {
+            remove: function(exercise) {
+                var _this = this;
+                $.ajax({
+                    url: "/admin/workouts/seven_mins/" + exercise.id,
+                    type: "DELETE",
+                    success: function(na) {
+                        var ids = _this.exerciseList.map(function(ex) { return ex.id });
+                        var index = ids.indexOf(exercise.id);
+                        _this.exerciseList.splice(index, 1);
+                    }
+                });
+            },
             addToList(data) {
                 this.exerciseList.push(data);
             }

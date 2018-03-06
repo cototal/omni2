@@ -5,7 +5,6 @@ class Admin::Workouts::SevenMinsController < ApplicationController
   end
 
   def create
-    Rails.logger.info("WE ARE HERE")
     @exercise = ::Workouts::SevenMin.new(seven_min_params)
     Rails.logger.info(@exercise.inspect)
     if @exercise.save
@@ -13,6 +12,12 @@ class Admin::Workouts::SevenMinsController < ApplicationController
     else
       head :no_content
     end
+  end
+
+  def destroy
+    exercise = ::Workouts::SevenMin.find(params[:id])
+    exercise.destroy
+    head :no_content
   end
 
   def list

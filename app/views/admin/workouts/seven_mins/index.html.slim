@@ -14,7 +14,9 @@ script#list-template type="text/x-template"
   div
     ul
       li v-for="exercise of sortedList"
-        p {{ exercise.position }} - {{ exercise.exercise }}
+        p
+          ' {{ exercise.position }} - {{ exercise.exercise }}
+          a v-on:click.stop="remove(exercise)" X
     new-exercise @add="addToList"
       
 script#new-exercise-template type="text/x-template"
