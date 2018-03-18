@@ -1,6 +1,6 @@
 $(function() {
     const ExerciseInList = ({exercise, onRemoveExercise}) => (
-        <li>
+        <li className="exercise">
             <p>
                 {exercise.position} - {exercise.exercise}
                 <button onClick={() => onRemoveExercise(exercise)}
@@ -28,6 +28,9 @@ $(function() {
                 description: this.description.value,
                 position: this.position.value
             };
+            [this.exercise, this.description, this.position].forEach((input) => {
+                input.value = "";
+            });
             this.props.onNewExercise(this.newExercise);
         }
 
@@ -58,15 +61,53 @@ $(function() {
         }
     }
 
+    class ExerciseRunner extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                exercise: props.exercise,
+                timeLeft: 30
+            };
+        }
+
+        // Lifecycle method to use when setting state from props,
+        // as described here: https://hackernoon.com/common-pitfall-in-initialising-state-based-on-props-in-react-js-d56795a944aa
+        componentWillReceiveProps(nextProps) {
+            if (nextProps.exercise.exercise !== this.props.exercise.exercise) {
+                this.setState({
+                    exercise: nextProps.exercise,
+                    timeLeft: 30
+                });
+            }
+        }
+
+        render() {
+            return (
+                <div>
+                    <div className="panel panel-primary">
+                        <div className="panel-heading">{this.state.exercise.exercise}</div>
+                        <div className="panel-body">{this.state.timeLeft}</div>
+                    </div>
+                </div>
+            );
+        }
+    }
+
     class SevenMinApp extends React.Component {
         constructor(props) {
             super(props);
             this.state = {
                 // Rendered in view as JSON
-                exerciseList: exerciseList
+                exerciseList: this.sortedExercises(exerciseList),
+                currentIndex: 0
             };
             this.handleNewExercise = this.handleNewExercise.bind(this);
             this.handleRemoveExercise = this.handleRemoveExercise.bind(this);
+            this.run = this.run.bind(this);
+        }
+
+        sortedExercises(list) {
+            return list.sort((alpha, beta) => (alpha.position - beta.position));
         }
 
         handleRemoveExercise(exercise) {
@@ -79,10 +120,12 @@ $(function() {
                     var ids = exerciseList.map(function(ex) { return ex.id });
                     var index = ids.indexOf(exercise.id);
                     exerciseList.splice(index, 1);
-                    _this.setState({exerciseList: exerciseList});
+                    _this.setState({
+                        exerciseList: _this.sortedExercises(exerciseList),
+                        currentIndex: prevState.currentIndex
+                    });
                 }
             });
-            console.log("removing", exercise);
         }
 
         handleNewExercise(exercise) {
@@ -95,9 +138,17 @@ $(function() {
                 }
             }).then(function(result) {
                 _this.setState(prevState => ({
-                    exerciseList: [...prevState.exerciseList, result]
+                    exerciseList: _this.sortedExercises([...prevState.exerciseList, result]),
+                    currentIndex: prevState.currentIndex
                 }));
             });
+        }
+
+        run() {
+            this.setState(prevState => ({
+                exerciseList: prevState.exerciseList,
+                currentIndex: prevState.currentIndex + 1
+            }));
         }
 
         render() {
@@ -105,22 +156,23 @@ $(function() {
                 <div className="row">
                     <div className="col-md-8">
                         <h1>Start a 7-minute Workout</h1>
-                        <a href="#" className="btn btn-primary">Start</a>
+                        <button onClick={this.run} className="btn btn-primary">Start</button>
+                        <ExerciseRunner exercise={this.state.exerciseList[this.state.currentIndex]} />
                     </div>
                     <div className="col-md-4">
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <h3 className="panel-title">Exercise List</h3>
                             </div>
-                        </div>
-                        <div className="panel-body">
-                            <ul>
-                                {this.state.exerciseList.map((exercise) => (
-                                    <ExerciseInList key={exercise.id} exercise={exercise}
+                            <div className="panel-body">
+                                <ul>
+                                    {this.state.exerciseList.map((exercise) => (
+                                        <ExerciseInList key={exercise.id} exercise={exercise}
                                         onRemoveExercise={this.handleRemoveExercise} />
-                                ))}
-                            </ul>
-                            <NewExerciseForm onNewExercise={this.handleNewExercise} />
+                                    ))}
+                                </ul>
+                                <NewExerciseForm onNewExercise={this.handleNewExercise} />
+                            </div>
                         </div>
                     </div>
                 </div>
