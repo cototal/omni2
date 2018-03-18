@@ -1,3 +1,4 @@
+#seven-min-app
 .row
   .col-md-8
     h1 Start a 7-minute Workout
@@ -18,7 +19,7 @@ script#list-template type="text/x-template"
           ' {{ exercise.position }} - {{ exercise.exercise }}
           a v-on:click.stop="remove(exercise)" X
     new-exercise @add="addToList"
-      
+
 script#new-exercise-template type="text/x-template"
   form @submit.prevent="submit"
     fieldset
@@ -33,6 +34,6 @@ script#new-exercise-template type="text/x-template"
         label for="new-exercise-position" Position
         input v-model="position" class="form-control" id="new-exericse-position" type="number"
       input type="submit" value="Add"
-  
+
 javascript:
   var exerciseList = #{@exercises.to_json.html_safe}

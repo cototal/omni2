@@ -11,6 +11,7 @@ require "action_view/railtie"
 # require "action_cable/engine"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
+require "sprockets/es6"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -21,7 +22,7 @@ module Omni2
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
     config.time_zone = "Central Time (US & Canada)"
- 
+
     config.session_store :redis_store, {
       servers: [
         {

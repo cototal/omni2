@@ -33,3 +33,6 @@ gem "mina"
 gem "mina-whenever"
 gem "whenever", require: false
 gem "redis-rails"
+
+gem "sprockets"
+gem "sprockets-es6"

@@ -28,6 +28,7 @@
     "jquery-datetimepicker": "^2.5.18",
     "jquery-ui-dist": "^1.12.1",
     "moment": "^2.20.1",
-    "vue": "^2.5.13"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
