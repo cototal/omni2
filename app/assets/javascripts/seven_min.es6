@@ -1,4 +1,4 @@
-$(function() {
+$(() => {
     const ExerciseInList = ({exercise, onRemoveExercise}) => (
         <li className="exercise">
             <p>
@@ -66,27 +66,33 @@ $(function() {
             super(props);
             this.state = {
                 exercise: props.exercise,
-                timeLeft: 30
+                timeLeft: props.timeLeft
             };
         }
 
         // Lifecycle method to use when setting state from props,
         // as described here: https://hackernoon.com/common-pitfall-in-initialising-state-based-on-props-in-react-js-d56795a944aa
         componentWillReceiveProps(nextProps) {
-            if (nextProps.exercise.exercise !== this.props.exercise.exercise) {
-                this.setState({
-                    exercise: nextProps.exercise,
-                    timeLeft: 30
-                });
-            }
+            let audio = document.getElementById("tick-sound")
+            audio.volume = 0.5;
+            audio.play();
+            this.setState({
+                exercise: nextProps.exercise,
+                timeLeft: nextProps.timeLeft
+            });
         }
 
         render() {
             return (
-                <div>
-                    <div className="panel panel-primary">
-                        <div className="panel-heading">{this.state.exercise.exercise}</div>
-                        <div className="panel-body">{this.state.timeLeft}</div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="panel panel-primary">
+                            <div className="panel-heading">{this.state.exercise.exercise}</div>
+                            <div className="panel-body">{this.state.timeLeft}</div>
+                            <audio id="tick-sound">
+                                <source src="/beep.mp3" type="audio/mpeg"/>
+                            </audio>
+                        </div>
                     </div>
                 </div>
             );
@@ -94,61 +100,122 @@ $(function() {
     }
 
     class SevenMinApp extends React.Component {
+
         constructor(props) {
             super(props);
+
+            this.runner = null;
+            this.exerciseTime = 5;
+            this.restTime = 2;
+
             this.state = {
                 // Rendered in view as JSON
                 exerciseList: this.sortedExercises(exerciseList),
-                currentIndex: 0
+                currentIndex: 0,
+                timeLeft: this.exerciseTime
             };
+
             this.handleNewExercise = this.handleNewExercise.bind(this);
             this.handleRemoveExercise = this.handleRemoveExercise.bind(this);
             this.run = this.run.bind(this);
         }
 
         sortedExercises(list) {
-            return list.sort((alpha, beta) => (alpha.position - beta.position));
+            return list.sort((a, b) => (a.position - b.position));
+        }
+
+        prepareExercises() {
+            const list = this.sortedExercises(this.state.exerciseList);
+            let finalList = [];
+            list.forEach((exercise, idx) => {
+                if (exercise.exercise == "Rest") {
+                    return;
+                }
+                finalList.push(exercise);
+                finalList.push({
+                    id: idx + 100,
+                    exercise: "Rest",
+                    description: "",
+                    position: finalList.length
+                });
+            });
+            return finalList;
         }
 
         handleRemoveExercise(exercise) {
-            var _this = this;
+            let _this = this;
             $.ajax({
                 url: "/admin/workouts/seven_mins/" + exercise.id,
                 type: "DELETE",
-                success: function(na) {
+                success: na => {
                     let exerciseList = _this.state.exerciseList;
-                    var ids = exerciseList.map(function(ex) { return ex.id });
-                    var index = ids.indexOf(exercise.id);
+                    let ids = exerciseList.map(ex => ex.id);
+                    let index = ids.indexOf(exercise.id);
                     exerciseList.splice(index, 1);
-                    _this.setState({
+                    _this.setState(prevState => ({
                         exerciseList: _this.sortedExercises(exerciseList),
-                        currentIndex: prevState.currentIndex
-                    });
+                        currentIndex: prevState.currentIndex,
+                        timeLeft: prevState.timeLeft
+                    }));
                 }
             });
         }
 
         handleNewExercise(exercise) {
-            var _this = this;
+            let _this = this;
             $.post("/admin/workouts/seven_mins", {
                 seven_min: {
                     exercise: exercise.exercise,
                     description: exercise.description,
                     position: exercise.position
                 }
-            }).then(function(result) {
+            }).then(result => {
                 _this.setState(prevState => ({
                     exerciseList: _this.sortedExercises([...prevState.exerciseList, result]),
-                    currentIndex: prevState.currentIndex
+                    currentIndex: prevState.currentIndex,
+                    timeLeft: prevState.timeLeft
                 }));
             });
         }
 
         run() {
+            let _this = this;
+            if (this.runner !== null) {
+                clearInterval(this.runner);
+            }
+
             this.setState(prevState => ({
-                exerciseList: prevState.exerciseList,
-                currentIndex: prevState.currentIndex + 1
+                exerciseList: this.prepareExercises(prevState.exerciseList),
+                currentIndex: 0,
+                timeLeft: _this.exerciseTime
             }));
+
+            this.runner = setInterval(() => {
+                if (_this.state.timeLeft <= 0) {
+                    _this.setState(prevState => {
+                        let timeLeft = _this.exerciseTime;
+
+                        if (prevState.exerciseList[prevState.currentIndex].exercise != "Rest") {
+                            timeLeft = _this.restTime;
+                        }
+                        return {
+                            exerciseList: prevState.exerciseList,
+                            currentIndex: ++prevState.currentIndex,
+                            timeLeft: timeLeft
+                        }
+                    });
+                } else {
+                    _this.setState(prevState => ({
+                        exerciseList: prevState.exerciseList,
+                        currentIndex: prevState.currentIndex,
+                        timeLeft: --prevState.timeLeft
+                    }));
+                }
+
+                if (_this.state.currentIndex + 1 >= _this.state.exerciseList.length) {
+                    clearInterval(this.runner);
+                }
+            }, 1000);
         }
 
         render() {
@@ -156,8 +223,10 @@ $(function() {
                 <div className="row">
                     <div className="col-md-8">
                         <h1>Start a 7-minute Workout</h1>
-                        <button onClick={this.run} className="btn btn-primary">Start</button>
-                        <ExerciseRunner exercise={this.state.exerciseList[this.state.currentIndex]} />
+                        <p>
+                            <button onClick={this.run} className="btn btn-primary">Start</button>
+                        </p>
+                        <ExerciseRunner timeLeft={this.state.timeLeft} exercise={this.state.exerciseList[this.state.currentIndex]} />
                     </div>
                     <div className="col-md-4">
                         <div className="panel panel-default">
@@ -167,7 +236,7 @@ $(function() {
                             <div className="panel-body">
                                 <ul>
                                     {this.state.exerciseList.map((exercise) => (
-                                        <ExerciseInList key={exercise.id} exercise={exercise}
+                                        exercise.exercise == "Rest" ? "" : <ExerciseInList key={exercise.id} exercise={exercise}
                                         onRemoveExercise={this.handleRemoveExercise} />
                                     ))}
                                 </ul>
