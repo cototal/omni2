@@ -29,4 +29,13 @@ class HomeController < ApplicationController
     ]
     @quote = quotes.sample.capitalize
   end
+
+  def weather
+    @cameras = [
+      {"Latitude"=>43.107018, "Longitude"=>-89.338768, "ID"=>"WisDOT-CCTV-13-0018", "Name"=>"East Washington Ave at WIS 30", "DirectionOfTravel"=>"Northbound", "RoadwayName"=>"East Washington Ave", "Url"=>"http://511wi.gov/map/Cctv/CCTV-13-0018--2", "Disabled"=>false, "Blocked"=>false},
+      {"Latitude"=>43.078449, "Longitude"=>-89.378811, "ID"=>"WisDOT-CCTV-13-0021", "Name"=>"East Washington Ave at Blair St", "DirectionOfTravel"=>"Northbound", "RoadwayName"=>"East Washington Ave", "Url"=>"http://511wi.gov/map/Cctv/CCTV-13-0021--2", "Disabled"=>false, "Blocked"=>false},
+      {"Latitude"=>43.040676, "Longitude"=>-89.37835, "ID"=>"WisDOT-CCTV-13-0049", "Name"=>"US 12/18 at Rimrock Rd", "DirectionOfTravel"=>"Northbound", "RoadwayName"=>"US 12", "Url"=>"http://511wi.gov/map/Cctv/CCTV-13-0049--2", "Disabled"=>false, "Blocked"=>false},
+      {"Latitude"=>43.034922, "Longitude"=>-89.40676, "ID"=>"WisDOT-CCTV-13-0005", "Name"=>"US 12/18 at Fish Hatchery Rd", "DirectionOfTravel"=>"Northbound", "RoadwayName"=>"US 12", "Url"=>"http://511wi.gov/map/Cctv/CCTV-13-0005--2", "Disabled"=>false, "Blocked"=>false}
+    ]
+  end
 end

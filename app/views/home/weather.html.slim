@@ -1,0 +1,10 @@
+- @cameras.in_groups_of(2).each do |group|
+  .row
+    - group.each do |cam|
+      - next if cam.blank?
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title= cam["Name"]
+          .panel-body
+            img class="img-responsive" src=cam["Url"]

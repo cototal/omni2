@@ -34,5 +34,6 @@ Rails.application.routes.draw do
     resources :categories, only: [:index, :show]
     resources :sequences, only: [:index, :show]
   end
+  get "weather" => "home#weather"
   root "home#index"
 end
