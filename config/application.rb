@@ -29,8 +29,7 @@ module Omni2
           host: "localhost",
           port: 6379,
           db: 0,
-          namespace: "session",
-          password: Rails.application.secrets.redis_password
+          namespace: "session"
         }
       ],
       expire_after: 90.minutes,
