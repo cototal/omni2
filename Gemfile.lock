@@ -67,7 +67,6 @@ GEM
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
-    libv8 (6.7.288.46.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -85,8 +84,6 @@ GEM
       mina (~> 1.0)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.4)
-      libv8 (>= 6.3)
     minitest (5.11.3)
     multi_json (1.13.1)
     nio4r (2.3.1)
@@ -221,7 +218,6 @@ DEPENDENCIES
   listen
   mina
   mina-whenever
-  mini_racer
   pg
   pry-rails
   rails (~> 5.1.6)
