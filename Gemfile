@@ -36,4 +36,4 @@ gem "redis-rails"
 
 gem "sprockets"
 gem "sprockets-es6"
-gem "therubyracer"
+gem "mini_racer"
